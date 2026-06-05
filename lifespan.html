@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sysqo · Extending Human Lifespan</title>
+<meta name="description" content="Directing AI at the biology of ageing, age-related disease, and the long goal of more healthy years.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sysqo-saas.css">
+<style>
+  /* rapamycin 3D scene as ambient hero atmosphere */
+  .hero-molecule{
+    position:absolute;
+    top:50%;
+    right:-6%;
+    transform:translateY(-50%);
+    width:62%;
+    height:130%;
+    border:0;
+    background:transparent;
+    z-index:1;
+    opacity:.7;
+    pointer-events:none;
+  }
+  @media(max-width:860px){
+    /* on mobile: flow the molecule below the text inside the same hero container */
+    .ahero{display:flex;flex-direction:column;padding-bottom:0}
+    .ahero .wrap{order:1}
+    .hero-molecule{
+      position:relative;
+      top:auto;right:auto;
+      transform:none;
+      order:2;
+      width:100%;
+      height:auto;
+      aspect-ratio:1/1;
+      max-height:62vh;
+      margin-top:-22%;
+      opacity:.7;
+    }
+  }
+</style>
+</head>
+<body data-page="lifespan">
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-in">
+      <a class="brand" href="index.html" aria-label="Sysqo">
+        <img src="assets/sysqo-wordmark.png" alt="Sysqo">
+      </a>
+      <div class="nav-cta">
+        <a class="nav-explore" href="about.html">About</a>
+        <a class="nav-explore" href="index.html#what-we-do">Explore our work</a>
+        <button class="nav-burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="ahero">
+    <iframe class="hero-molecule" src="assets/rapamycin.html?clean=1" title="Rapamycin molecule" aria-hidden="true" loading="lazy"></iframe>
+    <div class="wrap">
+      <div class="inner rv">
+        <h1 class="display" style="max-width:13ch">Extending human <span class="grad-text">lifespan</span>.</h1>
+        <p class="lead">We point our efforts at the hardest problem there is: the biology of ageing itself.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section soft">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="h-md rv">The mission.</h2>
+        <div class="rv d1">
+          <p class="body lg">This is the most ambitious thing Sysqo works on, and we treat it with the weight it deserves. We direct our scientific work toward extending healthy human lifespan: the biology of ageing, age-related disease, and the long goal of dramatically extending how long, and how well, people live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ageing as a modifiable process -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head rv">
+        <h2 class="h-md" style="max-width:22ch">Ageing as a modifiable process.</h2>
+      </div>
+      <div class="segments">
+        <article class="segment rv">
+          <div class="seg-n">The frame</div>
+          <p>For most of medical history, ageing has been treated as a fixed backdrop rather than something we can change. Yet it remains the single largest risk factor behind the chronic diseases that cause most deaths worldwide. The central question now is whether ageing can be measured accurately, separated from simple chronological time, and slowed or reversed without causing more harm than good. This is difficult because ageing does not happen uniformly. It moves at different speeds across organs, tissues, and even individual cells, and testing whether something works in humans can take decades.</p>
+        </article>
+        <article class="segment rv d1">
+          <div class="seg-n">The evidence</div>
+          <p>Recent research suggests real progress. Two decades of rigorous mouse studies have established rapamycin as the most reliable drug for extending lifespan, with effective compounds tending to target metabolism, stress, and inflammation. In humans, early trials of senolytics, drugs that clear worn-out &ldquo;senescent&rdquo; cells, have shown these cells can be removed safely. Partial cellular reprogramming, which resets the markers of age in living cells, has more than doubled the remaining lifespan of aged mice without causing tumours. Meanwhile, AI is being used to measure biological age from medical images and to identify new drug targets that address ageing and disease at once.</p>
+        </article>
+        <article class="segment rv d2">
+          <div class="seg-n">The work</div>
+          <p>These findings also reveal where the field must go next, and these are the questions Sysqo is built to pursue. The most urgent is validation: too many AI-led studies rely on small or biased datasets and skip confirmation in living systems. Progress will require careful replication, measurement at the level of specific organs and cells, and study designs that test how interventions work in combination rather than alone, since lasting results are unlikely to come from any single treatment. Sysqo sees the disciplined work of turning these discoveries into proven, measurable outcomes as the core challenge of applied longevity research, and as the work it exists to do.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="wrap">
+      <div class="section-head rv"><h2 class="h-md">What we build.</h2></div>
+      <div class="cap-list">
+        <div class="cap rv"><span class="cn">01</span><span><span class="ct">Molecular property prediction</span><span class="cd">Triaging candidate molecules in silico before they reach the wet lab, narrowing vast libraries to the few worth the bench time.</span></span></div>
+        <div class="cap rv d1"><span class="cn">02</span><span><span class="ct">Protein structure &amp; interaction modelling</span><span class="cd">Predicting how proteins fold and bind, to understand the machinery of ageing and the targets that might intervene in it.</span></span></div>
+        <div class="cap rv d2"><span class="cn">03</span><span><span class="ct">Generative chemistry</span><span class="cd">Proposing novel candidate structures against a target profile, exploring chemical space far faster than enumeration allows.</span></span></div>
+        <div class="cap rv"><span class="cn">04</span><span><span class="ct">Experimental design optimisation</span><span class="cd">Sharpening the design, make, test, analyse cycle so each round of experiments learns the most from the fewest runs.</span></span></div>
+        <div class="cap rv d1"><span class="cn">05</span><span><span class="ct">Validation in living systems</span><span class="cd">Designing the studies that confirm an AI-led finding outside the model: replication, measurement at organ and cell level, and combinations of interventions where single ones rarely hold.</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- feature capability -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head rv">
+        <h2 class="h-md" style="max-width:24ch">Reading the whole of the literature, grounded and cited.</h2>
+      </div>
+      <div class="split rv d1">
+        <div></div>
+        <div>
+          <p class="body lg">No researcher can read everything. We build AI systems that read and synthesise the global research literature, surfacing what is already known so scientists can spend their attention on what is still open.</p>
+          <p class="body lg" style="margin-top:18px">Every synthesis is <strong>grounded in its sources and cited</strong>. The systems are engineered toward zero plagiarism by design, through citation and grounding, so the output can be traced, checked, and trusted as a starting point for real work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="h-md rv">What changes.</h2>
+        <div class="rv d1">
+          <div class="figs">
+            <div class="fig"><div class="fv">years <span class="u">→ months</span></div><div class="fl">Compressing early discovery timelines</div></div>
+            <div class="fig"><div class="fv">orders <span class="u">of mag.</span></div><div class="fl">Candidate libraries narrowed before the bench</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap rv">
+      <div class="note-client">
+        <span class="tx">Working alongside a research group on the biology of ageing, using literature synthesis and in silico screening to focus a long programme of experimental work on its most promising directions.</span>
+      </div>
+    </div>
+  </section>
+
+  <nav class="area-nav">
+    <a class="prev" href="generative-media.html"><div class="lab">← Prev · 01</div><div class="ttl">Generative Media &amp; Creative Production</div></a>
+    <a class="next" href="decision-systems.html"><div class="lab">Next · 03 →</div><div class="ttl">High-Stakes Decision Systems</div></a>
+  </nav>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="index.html" aria-label="Sysqo">
+            <img src="assets/sysqo-wordmark.png" alt="Sysqo">
+          </a>
+        </div>
+        <div class="foot-tagline">
+          <p>Applied artificial intelligence, practised at the frontier. A private research practice working on a few hard problems at a time.</p>
+        </div>
+        <div class="foot-col">
+          <h4>Practice</h4>
+          <p>18 Old Field Road<br>Pencoed, Bridgend<br>Wales</p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p>© <span id="yr">2026</span> Sysqo Limited · Est. 2022. All rights reserved.</p>
+        <div class="legal"><a href="privacy.html">Privacy</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/sysqo-saas.js"></script>
+</body>
+</html>

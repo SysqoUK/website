@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SYSQO — generative-media hero</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<style>
+  /* Page bg is preview-only. Canvas is genuinely transparent (clear() each frame). */
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  body.preview-dark { background: #0A0A0B; }
+  body.preview-light { background: #F4F2EE; }
+  body.preview-checker {
+    background-color: #ddd;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 25%),
+      linear-gradient(-45deg, #bbb 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #bbb 75%),
+      linear-gradient(-45deg, transparent 75%, #bbb 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
+  #stage { position: fixed; inset: 0; display: grid; place-items: center; }
+  canvas { display: block; }
+  .ui {
+    position: fixed; top: 12px; left: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(120,120,120,0.6); user-select: none;
+  }
+  .ui button {
+    background: rgba(0,0,0,0.15); color: inherit; border: 1px solid rgba(120,120,120,0.3);
+    padding: 4px 10px; font: inherit; cursor: pointer; margin-right: 4px;
+  }
+  .ui button:hover { background: rgba(0,0,0,0.25); }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div class="ui" id="ui">
+    bg:
+    <button onclick="document.body.className=''">transparent</button>
+    <button onclick="document.body.className='preview-dark'">dark</button>
+    <button onclick="document.body.className='preview-light'">light</button>
+    <button onclick="document.body.className='preview-checker'">checker</button>
+    <button onclick="window._savePNG && window._savePNG()">save PNG</button>
+  </div>
+
+  <script>
+  /*
+    SYSQO — Generative Media & Creative Production hero
+    --------------------------------------------------
+    One form family (a folded ribbon contour, drawn as a single continuous line)
+    repeated across a grid. One parameter — fold amplitude — varies across
+    columns on a left→right gradient. The whole gradient drifts in unison
+    via a slow cosine breath, so every cell shifts together while the family
+    stays recognisable throughout. Monochrome with one restrained accent at
+    the high-amplitude end. Transparent canvas (clear(), no background fill).
+
+    URL flags:
+      ?clean=1            — hide the UI strip (for clean screenshot capture)
+      ?bg=dark|light|checker — preview against a coloured page bg
+      ?palette=light      — switch ink to charcoal-on-light (default: light-on-dark)
+      ?phase=0|0.25|0.5|0.75 — freeze at a specific point in the breath cycle
+      ?w=2400&h=1200      — force canvas size (for high-res still export)
+  */
+
+  const PARAMS = new URLSearchParams(location.search);
+
+  const CFG = {
+    cols: 6,
+    rows: 4,
+    cycleSeconds: 20,        // one full drift cycle (linear time, no easing)
+    lineWeight: 1.4,         // hairline-to-thin, editorial
+    // ink defaults to light-on-dark; ?palette=light swaps to charcoal-on-light
+    ink:    PARAMS.get('palette') === 'light' ? [34, 34, 32]   : [232, 232, 230],
+    accent: PARAMS.get('palette') === 'light' ? [176, 80, 52]  : [196, 92, 60],
+    accentReach: 0.12,       // how far the accent bleeds into the gradient (0..1)
+    pointsPerForm: 280,      // resolution of each ribbon contour
+    marginRatio: 0.10,       // outer margin as fraction of min(canvas) dim
+    foldsBase: 3,            // structural folds in the ribbon (the family's logic)
+    ampMin: 0.04,            // low-amplitude end of gradient
+    ampMax: 0.42,            // high-amplitude end
+    squash: 0.92,            // slight ellipse squash for ribbon feel
+  };
+
+  let W, H;
+  let frozenPhase = null;
+
+  function setup(){
+    if (PARAMS.has('w') && PARAMS.has('h')) {
+      W = parseInt(PARAMS.get('w'), 10);
+      H = parseInt(PARAMS.get('h'), 10);
+    } else {
+      const side = Math.min(window.innerWidth, window.innerHeight) * 0.92;
+      W = side * 1.6;          // landscape-ish hero
+      H = side * 0.9;
+    }
+    const c = createCanvas(W, H);
+    c.parent('stage');
+    pixelDensity(2);           // crisp on retina and for PNG export
+    strokeJoin(ROUND);
+    strokeCap(ROUND);
+    noFill();
+
+    if (PARAMS.get('clean') === '1') {
+      const ui = document.getElementById('ui');
+      if (ui) ui.style.display = 'none';
+    }
+    if (PARAMS.has('phase')) {
+      frozenPhase = parseFloat(PARAMS.get('phase'));
+    }
+    const bg = PARAMS.get('bg');
+    if (bg) document.body.className = 'preview-' + bg;
+
+    // Exposed save handler for the UI button and external callers.
+    window._savePNG = function () {
+      saveCanvas('sysqo-genmedia-hero', 'png');
+    };
+  }
+
+  function draw(){
+    clear();   // genuine alpha — no background fill anywhere
+
+    const m = Math.min(W, H) * CFG.marginRatio;
+    const gridW = W - m * 2;
+    const gridH = H - m * 2;
+    const cellW = gridW / CFG.cols;
+    const cellH = gridH / CFG.rows;
+    const cell  = Math.min(cellW, cellH);
+
+    // Linear time advance (constant speed, no easing). Each column's
+    // amplitude is a smooth cosine of (gx + t) — no wrap, no discontinuity,
+    // no jagged frame. The wave drifts at constant velocity through the
+    // grid; identity preserved, parameter perfectly synchronised.
+    const t = frozenPhase !== null
+      ? frozenPhase
+      : ((millis() / 1000) / CFG.cycleSeconds) % 1;
+
+    for (let r = 0; r < CFG.rows; r++){
+      for (let cI = 0; cI < CFG.cols; cI++){
+        // Position along the single varying axis.
+        const gx = CFG.cols > 1 ? cI / (CFG.cols - 1) : 0;
+
+        // The one parameter: amplitude, sinusoidal in (gx + t). Smooth,
+        // continuous, periodic — no wrap-around jump anywhere in the loop.
+        const wave = (1 - Math.cos((gx + t) * Math.PI * 2)) / 2;  // 0..1 smooth
+        const amp = lerp(CFG.ampMin, CFG.ampMax, wave) * cell;
+
+        // Accent appears only when wave is near its peak — appears and
+        // recedes smoothly with the same sinusoidal motion.
+        const accentMix = Math.max(0, (wave - (1 - CFG.accentReach)) / CFG.accentReach);
+        const col = lerpRGB(CFG.ink, CFG.accent, Math.min(1, accentMix));
+
+        const cx = m + cellW * (cI + 0.5);
+        const cy = m + cellH * (r + 0.5);
+
+        drawRibbon(cx, cy, cell * 0.42, amp, col);
+      }
+    }
+  }
+
+  // One member of the form family. Same construction every time — only `amp`
+  // changes between cells. That sameness is the entire point of the brief.
+  function drawRibbon(cx, cy, radius, amp, col){
+    push();
+    translate(cx, cy);
+    stroke(col[0], col[1], col[2]);
+    strokeWeight(CFG.lineWeight);
+    beginShape();
+    for (let i = 0; i <= CFG.pointsPerForm; i++){
+      const u = i / CFG.pointsPerForm;
+      const a = u * Math.PI * 2;
+      const fold = Math.sin(a * CFG.foldsBase) * amp;
+      const rr = radius + fold;
+      const x = Math.cos(a) * rr;
+      const y = Math.sin(a) * rr * CFG.squash;
+      curveVertex(x, y);
+    }
+    endShape();
+    pop();
+  }
+
+  function lerpRGB(a, b, t){
+    return [ lerp(a[0],b[0],t), lerp(a[1],b[1],t), lerp(a[2],b[2],t) ];
+  }
+
+  function windowResized(){
+    if (PARAMS.has('w') && PARAMS.has('h')) return;
+    const side = Math.min(window.innerWidth, window.innerHeight) * 0.92;
+    W = side * 1.6; H = side * 0.9;
+    resizeCanvas(W, H);
+  }
+
+  // Press S to save a PNG of the current frame.
+  function keyPressed(){
+    if (key === 's' || key === 'S') window._savePNG();
+  }
+  </script>
+</body>
+</html>

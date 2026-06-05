@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sysqo · Generative Media &amp; Creative Production</title>
+<meta name="description" content="Controllable, production-grade generative systems built into the pipelines creatives already use.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sysqo-saas.css">
+<style>
+  /* generative-media hero: folded-ribbon grid animation as atmospheric backdrop */
+  .hero-genmedia{
+    position:absolute;
+    top:50%;
+    right:-4%;
+    transform:translateY(-50%);
+    width:56%;
+    height:90%;
+    border:0;
+    background:transparent;
+    z-index:1;
+    opacity:.55;
+    pointer-events:none;
+  }
+  @media(max-width:860px){
+    /* on mobile: flow the animation below the text inside the same hero container */
+    .ahero{display:flex;flex-direction:column;padding-bottom:0}
+    .ahero .wrap{order:1}
+    .hero-genmedia{
+      position:relative;
+      inset:auto;
+      transform:none;
+      order:2;
+      width:100%;
+      height:auto;
+      aspect-ratio:16/9;
+      max-height:55vh;
+      margin-top:0;
+      opacity:.75;
+    }
+  }
+</style>
+</head>
+<body data-page="generative-media">
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-in">
+      <a class="brand" href="index.html" aria-label="Sysqo">
+        <img src="assets/sysqo-wordmark.png" alt="Sysqo">
+      </a>
+      <div class="nav-cta">
+        <a class="nav-explore" href="about.html">About</a>
+        <a class="nav-explore" href="index.html#what-we-do">Explore our work</a>
+        <button class="nav-burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="ahero">
+    <iframe class="hero-genmedia" src="assets/genmedia-hero.html?clean=1&palette=light" title="Generative ribbon-grid animation" aria-hidden="true" loading="lazy"></iframe>
+    <div class="wrap">
+      <div class="inner rv">
+        <h1 class="display" style="max-width:16ch">Generative Media &amp; <span class="grad-text">Creative Production</span>.</h1>
+        <p class="lead">Controllable, production-grade generative systems, built to hold a consistent creative identity across an entire body of work, inside the pipelines creatives already use.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- overview -->
+  <section class="section soft">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="h-md rv">The problem.</h2>
+        <div class="rv d1">
+          <p class="body lg">Most generative tools are built for the single shot: one prompt, one image, one moment of novelty. Production is the opposite problem. The work has to stay coherent across hundreds of assets, bend to direction on demand, and fit the tools a team already depends on.</p>
+          <p class="body lg" style="margin-top:18px">Sysqo builds the systems that make that possible. The difficulty is <strong>consistency</strong> across a sequence, <strong>controllability</strong> under a creative brief, and <strong>real integration</strong> into a working pipeline.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- @Daz gallery -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head rv">
+        <h2 class="h-md" style="max-width:26ch">Client engagements stay confidential by design. The techniques behind them are developed and shown in the open.</h2>
+        <p class="body" style="margin-top:14px;max-width:60ch">The work below is the founder's own published creative output, released under the handle <strong>@Daz</strong>: techniques developed and stress-tested in public. It stands as a demonstration of craft. Client work is never shown, and is always abstracted.</p>
+      </div>
+      <div class="gallery rv d1">
+        <div class="g-slot g-a"><img src="assets/daz-stills/generative-media_gm-1_row1-left-large-landscape_16x10.webp" alt="@Daz published work" loading="lazy"></div>
+        <div class="g-slot g-b"><img src="assets/daz-stills/generative-media_gm-2_row1-right-portrait_4x5.webp" alt="@Daz published work" loading="lazy"></div>
+        <div class="g-slot g-c"><img src="assets/daz-stills/generative-media_gm-3_row2-col1-portrait_3x4.webp" alt="@Daz published work" loading="lazy"></div>
+        <div class="g-slot g-d"><img src="assets/daz-stills/generative-media_gm-4_row2-col2-portrait_3x4.webp" alt="@Daz published work" loading="lazy"></div>
+        <div class="g-slot g-e"><img src="assets/daz-stills/generative-media_gm-5_row2-col3-portrait_3x4.webp" alt="@Daz published work" loading="lazy"></div>
+        <div class="g-slot g-f"><img src="assets/daz-stills/generative-media_gm-6_row3-fullwidth-banner_21x8.webp" alt="@Daz published work" loading="lazy"></div>
+      </div>
+      <div class="daz-tag rv d2">Published work <b>· @Daz</b></div>
+    </div>
+  </section>
+
+  <!-- capabilities -->
+  <section class="section soft">
+    <div class="wrap">
+      <div class="section-head rv"><h2 class="h-md">What we build.</h2></div>
+      <div class="cap-list">
+        <div class="cap rv">
+          <span class="cn">01</span>
+          <span><span class="ct">Style-consistent generation</span><span class="cd">A single creative identity held across a campaign or a sequence: characters, palettes, and look preserved frame to frame through fine-tuning and conditioning.</span></span>
+        </div>
+        <div class="cap rv d1">
+          <span class="cn">02</span>
+          <span><span class="ct">Real-time adaptive neural audio</span><span class="cd">Score and sound that respond to picture and pacing as it changes, generated and adapted in the moment.</span></span>
+        </div>
+        <div class="cap rv d2">
+          <span class="cn">03</span>
+          <span><span class="ct">Voice and performance tooling, with consent and provenance built in</span><span class="cd">Voice and performance systems with consent recorded and provenance attached at the source, so every asset carries a verifiable account of how it was made.</span></span>
+        </div>
+        <div class="cap rv">
+          <span class="cn">04</span>
+          <span><span class="ct">Integration into existing toolchains</span><span class="cd">Models wrapped to live inside the software a team already runs: editorial, compositing, and virtual-production stacks.</span></span>
+        </div>
+        <div class="cap rv d1">
+          <span class="cn">05</span>
+          <span><span class="ct">Asset generation at scale</span><span class="cd">Variation, localisation, and format permutations produced as a controlled batch, on brief and on brand, with the look locked across the set.</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- impact -->
+  <section class="section tight">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="h-md rv">What changes.</h2>
+        <div class="rv d1">
+          <div class="figs">
+            <div class="fig"><div class="fv">weeks <span class="u">→ days</span></div><div class="fl">Iteration cycle on a campaign look</div></div>
+            <div class="fig"><div class="fv">10–50<span class="u">×</span></div><div class="fl">Iterations explored per creative hour</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- discreet client note -->
+  <section class="section tight">
+    <div class="wrap rv">
+      <div class="note-client">
+        <span class="tx">Partnered with a leading broadcaster to hold a single generated look across an entire campaign, integrated into their existing production pipeline, with iteration moving from weeks to days.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- prev / next -->
+  <nav class="area-nav">
+    <a class="prev" href="index.html"><div class="lab">← Index</div><div class="ttl">All areas of work</div></a>
+    <a class="next" href="lifespan.html"><div class="lab">Next · 02 →</div><div class="ttl">Extending Human Lifespan</div></a>
+  </nav>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="index.html" aria-label="Sysqo">
+            <img src="assets/sysqo-wordmark.png" alt="Sysqo">
+          </a>
+        </div>
+        <div class="foot-tagline">
+          <p>Applied artificial intelligence, practised at the frontier. A private research practice working on a few hard problems at a time.</p>
+        </div>
+        <div class="foot-col">
+          <h4>Practice</h4>
+          <p>18 Old Field Road<br>Pencoed, Bridgend<br>Wales</p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p>© <span id="yr">2026</span> Sysqo Limited · Est. 2022. All rights reserved.</p>
+        <div class="legal"><a href="privacy.html">Privacy</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/sysqo-saas.js"></script>
+</body>
+</html>

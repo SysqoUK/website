@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rapamycin — SYSQO hero molecule</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: hidden;
+  }
+  /* Page background is transparent by default. Set CSS background on
+     a host page or on body here to preview against a colour. The
+     molecule itself renders with true alpha. */
+  body.preview-dark { background: #0A0A0B; }
+  body.preview-light { background: #F4F2EE; }
+  body.preview-checker {
+    background-color: #ddd;
+    background-image:
+      linear-gradient(45deg, #bbb 25%, transparent 25%),
+      linear-gradient(-45deg, #bbb 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #bbb 75%),
+      linear-gradient(-45deg, transparent 75%, #bbb 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  }
+  #scene { display: block; width: 100vw; height: 100vh; }
+  .preview-controls {
+    position: fixed; top: 12px; left: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(120,120,120,0.6);
+    user-select: none;
+  }
+  .preview-controls button {
+    background: rgba(0,0,0,0.15); color: inherit; border: 1px solid rgba(120,120,120,0.3);
+    padding: 4px 10px; font: inherit; cursor: pointer; margin-right: 4px;
+  }
+  .preview-controls button:hover { background: rgba(0,0,0,0.25); }
+</style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <div class="preview-controls" id="preview-controls">
+    bg:
+    <button onclick="document.body.className=''">transparent</button>
+    <button onclick="document.body.className='preview-dark'">dark</button>
+    <button onclick="document.body.className='preview-light'">light</button>
+    <button onclick="document.body.className='preview-checker'">checker</button>
+  </div>
+  <script>
+    // URL flags: ?clean=1 hides UI; ?bg=dark|light|checker sets a preview bg.
+    (function () {
+      const params = new URLSearchParams(location.search);
+      if (params.get('clean') === '1') {
+        document.getElementById('preview-controls').style.display = 'none';
+      }
+      const bg = params.get('bg');
+      if (bg) document.body.className = 'preview-' + bg;
+    })();
+  </script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.171.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.171.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // --- Molecule data (parsed from RCSB PDB ligand RAP, recentred) ---
+    const MOLECULE = {"name":"rapamycin","n_atoms":144,"n_bonds":147,"elements":{"C":51,"O":13,"N":1,"H":79},"atoms":[{"x":-0.4173,"y":-1.8236,"z":2.7635,"el":"C"},{"x":-1.7433,"y":-1.9886,"z":2.5665,"el":"O"},{"x":0.2237,"y":-1.2086,"z":1.9505,"el":"O"},{"x":0.2077,"y":-2.4376,"z":3.9735,"el":"C"},{"x":-0.5343,"y":-2.0156,"z":5.2435,"el":"C"},{"x":0.0347,"y":-2.7866,"z":6.4375,"el":"C"},{"x":1.5317,"y":-2.5056,"z":6.5825,"el":"C"},{"x":2.2517,"y":-2.9416,"z":5.2965,"el":"C"},{"x":1.6347,"y":-2.1616,"z":4.1915,"el":"N"},{"x":2.4037,"y":-1.3116,"z":3.5085,"el":"C"},{"x":1.9217,"y":-0.2596,"z":3.1425,"el":"O"},{"x":3.8367,"y":-1.5216,"z":3.2675,"el":"C"},{"x":4.2187,"y":-2.6686,"z":3.2485,"el":"O"},{"x":4.8577,"y":-0.4516,"z":3.0105,"el":"C"},{"x":4.8897,"y":-0.0936,"z":1.6325,"el":"O"},{"x":4.5347,"y":0.6994,"z":3.7995,"el":"O"},{"x":6.2257,"y":-0.9806,"z":3.4555,"el":"C"},{"x":7.3237,"y":0.0484,"z":3.1735,"el":"C"},{"x":7.2517,"y":0.4174,"z":1.6825,"el":"C"},{"x":5.8307,"y":0.9484,"z":1.4405,"el":"C"},{"x":5.7327,"y":1.6734,"z":0.1185,"el":"C"},{"x":6.2627,"y":0.8964,"z":-1.0835,"el":"C"},{"x":7.6537,"y":1.1614,"z":-1.2635,"el":"O"},{"x":5.5007,"y":1.3734,"z":-2.2995,"el":"C"},{"x":4.7967,"y":0.5594,"z":-3.0705,"el":"C"},{"x":4.0557,"y":1.1024,"z":-4.2085,"el":"C"},{"x":3.3147,"y":0.2964,"z":-4.9965,"el":"C"},{"x":2.5497,"y":0.9204,"z":-6.0775,"el":"C"},{"x":1.7717,"y":0.1694,"z":-6.8515,"el":"C"},{"x":0.9757,"y":0.8074,"z":-7.9595,"el":"C"},{"x":-0.4033,"y":0.1484,"z":-8.0235,"el":"C"},{"x":-1.2483,"y":0.5814,"z":-6.8235,"el":"C"},{"x":-2.2993,"y":-0.4586,"z":-6.5305,"el":"C"},{"x":-2.4133,"y":-1.4206,"z":-7.2505,"el":"O"},{"x":-3.2023,"y":-0.2996,"z":-5.3345,"el":"C"},{"x":-2.4013,"y":-0.1446,"z":-4.1605,"el":"O"},{"x":-4.1053,"y":-1.5216,"z":-5.1795,"el":"C"},{"x":-5.2093,"y":-1.4186,"z":-6.0795,"el":"O"},{"x":-4.6243,"y":-1.5826,"z":-3.7585,"el":"C"},{"x":-4.1753,"y":-2.5236,"z":-2.9725,"el":"C"},{"x":-4.6043,"y":-2.6576,"z":-1.5335,"el":"C"},{"x":-3.5853,"y":-1.9346,"z":-0.6845,"el":"C"},{"x":-3.0373,"y":-0.9476,"z":-1.1235,"el":"O"},{"x":-3.2413,"y":-2.4306,"z":0.6905,"el":"C"},{"x":-2.4343,"y":-1.3726,"z":1.4525,"el":"C"},{"x":-3.3863,"y":-0.2986,"z":1.9855,"el":"C"},{"x":-2.5853,"y":0.7624,"z":2.7405,"el":"C"},{"x":-3.5453,"y":1.7574,"z":3.3955,"el":"C"},{"x":-4.3593,"y":1.0424,"z":4.4765,"el":"C"},{"x":-5.3203,"y":2.0374,"z":5.1325,"el":"C"},{"x":-6.0803,"y":1.3704,"z":6.1415,"el":"O"},{"x":-4.5213,"y":3.1774,"z":5.7655,"el":"C"},{"x":-5.4183,"y":4.1054,"z":6.3775,"el":"O"},{"x":-3.7073,"y":3.8914,"z":4.6845,"el":"C"},{"x":-2.7463,"y":2.8974,"z":4.0295,"el":"C"},{"x":6.1967,"y":-1.2556,"z":4.9645,"el":"C"},{"x":5.5447,"y":2.8524,"z":-2.6225,"el":"C"},{"x":1.6967,"y":0.6004,"z":-9.2935,"el":"C"},{"x":-1.9343,"y":1.9124,"z":-7.1395,"el":"C"},{"x":-5.6263,"y":-0.5616,"z":-3.2915,"el":"C"},{"x":-4.6343,"y":-4.1436,"z":-1.1555,"el":"C"},{"x":-4.1243,"y":0.3554,"z":0.8155,"el":"C"},{"x":8.2147,"y":0.0094,"z":-1.8955,"el":"C"},{"x":-2.1473,"y":1.2534,"z":-4.0165,"el":"C"},{"x":-7.3443,"y":2.0324,"z":6.2125,"el":"C"},{"x":0.0997,"y":-3.5386,"z":3.8845,"el":"H"},{"x":-1.5923,"y":-2.2456,"z":5.1325,"el":"H"},{"x":-0.4033,"y":-0.9476,"z":5.4015,"el":"H"},{"x":-0.1213,"y":-3.8546,"z":6.2835,"el":"H"},{"x":-0.4833,"y":-2.4756,"z":7.3465,"el":"H"},{"x":1.9287,"y":-3.0646,"z":7.4305,"el":"H"},{"x":1.6907,"y":-1.4376,"z":6.7445,"el":"H"},{"x":2.0977,"y":-4.0026,"z":5.1235,"el":"H"},{"x":3.3107,"y":-2.7126,"z":5.3675,"el":"H"},{"x":3.6697,"y":1.0104,"z":3.4975,"el":"H"},{"x":6.4517,"y":-1.9056,"z":2.9265,"el":"H"},{"x":8.2997,"y":-0.3816,"z":3.4005,"el":"H"},{"x":7.1607,"y":0.9374,"z":3.7825,"el":"H"},{"x":7.4277,"y":-0.4646,"z":1.0695,"el":"H"},{"x":7.9827,"y":1.1894,"z":1.4495,"el":"H"},{"x":5.6537,"y":1.7114,"z":2.2285,"el":"H"},{"x":6.2917,"y":2.6064,"z":0.2045,"el":"H"},{"x":4.6817,"y":1.9164,"z":-0.0545,"el":"H"},{"x":6.0987,"y":-0.1706,"z":-0.9435,"el":"H"},{"x":4.7547,"y":-0.5066,"z":-2.8865,"el":"H"},{"x":4.0727,"y":2.1544,"z":-4.4615,"el":"H"},{"x":3.2977,"y":-0.7656,"z":-4.8365,"el":"H"},{"x":2.6217,"y":1.9874,"z":-6.2345,"el":"H"},{"x":1.7217,"y":-0.8956,"z":-6.6805,"el":"H"},{"x":0.8687,"y":1.8744,"z":-7.7665,"el":"H"},{"x":-0.2903,"y":-0.9356,"z":-8.0135,"el":"H"},{"x":-0.9083,"y":0.4504,"z":-8.9425,"el":"H"},{"x":-0.6093,"y":0.7044,"z":-5.9495,"el":"H"},{"x":-3.8193,"y":0.5874,"z":-5.4665,"el":"H"},{"x":-3.5373,"y":-2.4266,"z":-5.3925,"el":"H"},{"x":-5.7543,"y":-2.2066,"z":-5.9445,"el":"H"},{"x":-3.4633,"y":-3.2386,"z":-3.3735,"el":"H"},{"x":-5.5913,"y":-2.2336,"z":-1.3675,"el":"H"},{"x":-2.6403,"y":-3.3386,"z":0.6135,"el":"H"},{"x":-4.1533,"y":-2.6466,"z":1.2455,"el":"H"},{"x":-1.7123,"y":-0.9176,"z":0.7785,"el":"H"},{"x":-4.1093,"y":-0.7556,"z":2.6605,"el":"H"},{"x":-1.9343,"y":1.2914,"z":2.0435,"el":"H"},{"x":-1.9793,"y":0.2824,"z":3.5095,"el":"H"},{"x":-4.2203,"y":2.1614,"z":2.6415,"el":"H"},{"x":-3.6853,"y":0.6384,"z":5.2315,"el":"H"},{"x":-4.9293,"y":0.2304,"z":4.0255,"el":"H"},{"x":-5.9953,"y":2.4414,"z":4.3775,"el":"H"},{"x":-3.8463,"y":2.7724,"z":6.5205,"el":"H"},{"x":-4.8753,"y":4.8064,"z":6.7635,"el":"H"},{"x":-3.1373,"y":4.7034,"z":5.1355,"el":"H"},{"x":-4.3813,"y":4.2964,"z":3.9295,"el":"H"},{"x":-2.0713,"y":2.4924,"z":4.7845,"el":"H"},{"x":-2.1663,"y":3.4064,"z":3.2595,"el":"H"},{"x":7.1647,"y":-1.6446,"z":5.2815,"el":"H"},{"x":5.9857,"y":-0.3286,"z":5.4985,"el":"H"},{"x":5.4207,"y":-1.9876,"z":5.1865,"el":"H"},{"x":6.0397,"y":3.0004,"z":-3.5815,"el":"H"},{"x":4.5287,"y":3.2434,"z":-2.6735,"el":"H"},{"x":6.0967,"y":3.3784,"z":-1.8435,"el":"H"},{"x":2.6807,"y":1.0684,"z":-9.2515,"el":"H"},{"x":1.8107,"y":-0.4666,"z":-9.4835,"el":"H"},{"x":1.1137,"y":1.0514,"z":-10.0955,"el":"H"},{"x":-2.5323,"y":2.2254,"z":-6.2835,"el":"H"},{"x":-1.1793,"y":2.6694,"z":-7.3515,"el":"H"},{"x":-2.5813,"y":1.7904,"z":-8.0085,"el":"H"},{"x":-5.8793,"y":-0.7526,"z":-2.2485,"el":"H"},{"x":-5.1973,"y":0.4364,"z":-3.3845,"el":"H"},{"x":-6.5253,"y":-0.6286,"z":-3.9025,"el":"H"},{"x":-5.3713,"y":-4.6606,"z":-1.7705,"el":"H"},{"x":-3.6503,"y":-4.5816,"z":-1.3235,"el":"H"},{"x":-4.9033,"y":-4.2456,"z":-0.1045,"el":"H"},{"x":-3.3993,"y":0.7264,"z":0.0915,"el":"H"},{"x":-4.7713,"y":-0.3796,"z":0.3365,"el":"H"},{"x":-4.7273,"y":1.1844,"z":1.1845,"el":"H"},{"x":9.2817,"y":0.1654,"z":-2.0545,"el":"H"},{"x":8.0657,"y":-0.8626,"z":-1.2595,"el":"H"},{"x":7.7247,"y":-0.1526,"z":-2.8555,"el":"H"},{"x":-1.5363,"y":1.4224,"z":-3.1295,"el":"H"},{"x":-1.6193,"y":1.6194,"z":-4.8965,"el":"H"},{"x":-3.0933,"y":1.7854,"z":-3.9125,"el":"H"},{"x":-7.9623,"y":1.5564,"z":6.9735,"el":"H"},{"x":-7.1923,"y":3.0804,"z":6.4715,"el":"H"},{"x":-7.8443,"y":1.9664,"z":5.2455,"el":"H"}],"bonds":[{"a":0,"b":1,"o":1},{"a":0,"b":2,"o":2},{"a":0,"b":3,"o":1},{"a":1,"b":44,"o":1},{"a":3,"b":4,"o":1},{"a":3,"b":8,"o":1},{"a":3,"b":65,"o":1},{"a":4,"b":5,"o":1},{"a":4,"b":66,"o":1},{"a":4,"b":67,"o":1},{"a":5,"b":6,"o":1},{"a":5,"b":68,"o":1},{"a":5,"b":69,"o":1},{"a":6,"b":7,"o":1},{"a":6,"b":70,"o":1},{"a":6,"b":71,"o":1},{"a":7,"b":8,"o":1},{"a":7,"b":72,"o":1},{"a":7,"b":73,"o":1},{"a":8,"b":9,"o":1},{"a":9,"b":10,"o":2},{"a":9,"b":11,"o":1},{"a":11,"b":12,"o":2},{"a":11,"b":13,"o":1},{"a":13,"b":14,"o":1},{"a":13,"b":15,"o":1},{"a":13,"b":16,"o":1},{"a":14,"b":19,"o":1},{"a":15,"b":74,"o":1},{"a":16,"b":17,"o":1},{"a":16,"b":55,"o":1},{"a":16,"b":75,"o":1},{"a":17,"b":18,"o":1},{"a":17,"b":76,"o":1},{"a":17,"b":77,"o":1},{"a":18,"b":19,"o":1},{"a":18,"b":78,"o":1},{"a":18,"b":79,"o":1},{"a":19,"b":20,"o":1},{"a":19,"b":80,"o":1},{"a":20,"b":21,"o":1},{"a":20,"b":81,"o":1},{"a":20,"b":82,"o":1},{"a":21,"b":22,"o":1},{"a":21,"b":23,"o":1},{"a":21,"b":83,"o":1},{"a":22,"b":62,"o":1},{"a":23,"b":24,"o":2},{"a":23,"b":56,"o":1},{"a":24,"b":25,"o":1},{"a":24,"b":84,"o":1},{"a":25,"b":26,"o":2},{"a":25,"b":85,"o":1},{"a":26,"b":27,"o":1},{"a":26,"b":86,"o":1},{"a":27,"b":28,"o":2},{"a":27,"b":87,"o":1},{"a":28,"b":29,"o":1},{"a":28,"b":88,"o":1},{"a":29,"b":30,"o":1},{"a":29,"b":57,"o":1},{"a":29,"b":89,"o":1},{"a":30,"b":31,"o":1},{"a":30,"b":90,"o":1},{"a":30,"b":91,"o":1},{"a":31,"b":32,"o":1},{"a":31,"b":58,"o":1},{"a":31,"b":92,"o":1},{"a":32,"b":33,"o":2},{"a":32,"b":34,"o":1},{"a":34,"b":35,"o":1},{"a":34,"b":36,"o":1},{"a":34,"b":93,"o":1},{"a":35,"b":63,"o":1},{"a":36,"b":37,"o":1},{"a":36,"b":38,"o":1},{"a":36,"b":94,"o":1},{"a":37,"b":95,"o":1},{"a":38,"b":39,"o":2},{"a":38,"b":59,"o":1},{"a":39,"b":40,"o":1},{"a":39,"b":96,"o":1},{"a":40,"b":41,"o":1},{"a":40,"b":60,"o":1},{"a":40,"b":97,"o":1},{"a":41,"b":42,"o":2},{"a":41,"b":43,"o":1},{"a":43,"b":44,"o":1},{"a":43,"b":98,"o":1},{"a":43,"b":99,"o":1},{"a":44,"b":45,"o":1},{"a":44,"b":100,"o":1},{"a":45,"b":46,"o":1},{"a":45,"b":61,"o":1},{"a":45,"b":101,"o":1},{"a":46,"b":47,"o":1},{"a":46,"b":102,"o":1},{"a":46,"b":103,"o":1},{"a":47,"b":48,"o":1},{"a":47,"b":54,"o":1},{"a":47,"b":104,"o":1},{"a":48,"b":49,"o":1},{"a":48,"b":105,"o":1},{"a":48,"b":106,"o":1},{"a":49,"b":50,"o":1},{"a":49,"b":51,"o":1},{"a":49,"b":107,"o":1},{"a":50,"b":64,"o":1},{"a":51,"b":52,"o":1},{"a":51,"b":53,"o":1},{"a":51,"b":108,"o":1},{"a":52,"b":109,"o":1},{"a":53,"b":54,"o":1},{"a":53,"b":110,"o":1},{"a":53,"b":111,"o":1},{"a":54,"b":112,"o":1},{"a":54,"b":113,"o":1},{"a":55,"b":114,"o":1},{"a":55,"b":115,"o":1},{"a":55,"b":116,"o":1},{"a":56,"b":117,"o":1},{"a":56,"b":118,"o":1},{"a":56,"b":119,"o":1},{"a":57,"b":120,"o":1},{"a":57,"b":121,"o":1},{"a":57,"b":122,"o":1},{"a":58,"b":123,"o":1},{"a":58,"b":124,"o":1},{"a":58,"b":125,"o":1},{"a":59,"b":126,"o":1},{"a":59,"b":127,"o":1},{"a":59,"b":128,"o":1},{"a":60,"b":129,"o":1},{"a":60,"b":130,"o":1},{"a":60,"b":131,"o":1},{"a":61,"b":132,"o":1},{"a":61,"b":133,"o":1},{"a":61,"b":134,"o":1},{"a":62,"b":135,"o":1},{"a":62,"b":136,"o":1},{"a":62,"b":137,"o":1},{"a":63,"b":138,"o":1},{"a":63,"b":139,"o":1},{"a":63,"b":140,"o":1},{"a":64,"b":141,"o":1},{"a":64,"b":142,"o":1},{"a":64,"b":143,"o":1}]};
+
+    // --- Monochrome palette: greyscale only, no element colour cues ---
+    const ATOM_COLOUR = {
+      'C': 0x2e2e30,   // graphite — most atoms, defines the tone
+      'O': 0x55555a,   // soft silver-grey
+      'N': 0x484850,   // mid charcoal
+      'H': 0x9a9a9e,   // lightest — small hydrogen atoms
+    };
+    const ATOM_RADIUS = {
+      'C': 0.32,
+      'O': 0.28,
+      'N': 0.30,
+      'H': 0.18,
+    };
+    const BOND_COLOUR = 0x1c1c1e;   // slightly darker than the atoms
+    const BOND_RADIUS = 0.075;
+
+    // --- Renderer with true alpha ---
+    const canvas = document.getElementById('scene');
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      premultipliedAlpha: false,   // important for clean alpha export
+    });
+    renderer.setClearColor(0x000000, 0);   // fully transparent clear
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    // --- Scene + camera ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 200);
+    // Frame the molecule large but with margin. Molecule extends ~10A from
+    // origin; FOV 28° + camera at 36 units gives generous negative space.
+    camera.position.set(0, 0, 36);
+    camera.lookAt(0, 0, 0);
+
+    // --- Lighting: one key (upper-left, raking), faint rim, soft fill ---
+    const ambient = new THREE.AmbientLight(0xffffff, 0.18);
+    scene.add(ambient);
+
+    const key = new THREE.DirectionalLight(0xffffff, 1.6);
+    key.position.set(-14, 18, 14);
+    scene.add(key);
+
+    const rim = new THREE.DirectionalLight(0xb8b8c0, 0.55);
+    rim.position.set(12, -2, -16);
+    scene.add(rim);
+
+    // --- Build geometry: shared sphere + cylinder, per-atom/bond meshes ---
+    // Shared sphere geometry (radius 1; scale per atom by ATOM_RADIUS).
+    const sphereGeo = new THREE.SphereGeometry(1, 32, 24);
+
+    // Shared cylinder along +Y, height 1, radius BOND_RADIUS; scale Y per bond length.
+    const cylinderGeo = new THREE.CylinderGeometry(BOND_RADIUS, BOND_RADIUS, 1, 16, 1);
+
+    // Materials per element + bond. MeshStandardMaterial → matte ceramic feel.
+    const atomMaterials = {};
+    for (const [el, hex] of Object.entries(ATOM_COLOUR)) {
+      atomMaterials[el] = new THREE.MeshStandardMaterial({
+        color: hex,
+        roughness: 0.52,
+        metalness: 0.05,
+      });
+    }
+    const bondMaterial = new THREE.MeshStandardMaterial({
+      color: BOND_COLOUR,
+      roughness: 0.55,
+      metalness: 0.08,
+    });
+
+    // Group that holds the whole molecule so we can rotate it as one.
+    const molecule = new THREE.Group();
+    scene.add(molecule);
+
+    // --- Atoms ---
+    const atomPositions = [];  // cached Vector3 for bond placement
+    for (const atom of MOLECULE.atoms) {
+      const mat = atomMaterials[atom.el] || atomMaterials['C'];
+      const radius = ATOM_RADIUS[atom.el] ?? 0.25;
+      const mesh = new THREE.Mesh(sphereGeo, mat);
+      mesh.position.set(atom.x, atom.y, atom.z);
+      mesh.scale.setScalar(radius);
+      molecule.add(mesh);
+      atomPositions.push(new THREE.Vector3(atom.x, atom.y, atom.z));
+    }
+
+    // --- Bonds ---
+    const midpoint = new THREE.Vector3();
+    const direction = new THREE.Vector3();
+    const yAxis = new THREE.Vector3(0, 1, 0);
+    const quat = new THREE.Quaternion();
+    for (const bond of MOLECULE.bonds) {
+      const a = atomPositions[bond.a];
+      const b = atomPositions[bond.b];
+      direction.subVectors(b, a);
+      const length = direction.length();
+      midpoint.addVectors(a, b).multiplyScalar(0.5);
+      // Orient unit cylinder (+Y) to point from a to b.
+      quat.setFromUnitVectors(yAxis, direction.clone().normalize());
+
+      const mesh = new THREE.Mesh(cylinderGeo, bondMaterial);
+      mesh.position.copy(midpoint);
+      mesh.quaternion.copy(quat);
+      mesh.scale.set(1, length, 1);
+      molecule.add(mesh);
+    }
+
+    // Slight composition offset — molecule slightly off-centre to the right
+    // (per brief), to leave more negative space on the left for text overlay.
+    molecule.position.x = 1.6;
+
+    // --- Resize handling ---
+    function resize() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // --- Animation: constant slow rotation about Y, ~36 seconds per revolution ---
+    const ROTATION_PERIOD_SECONDS = 36;
+    const ANGULAR_VELOCITY = (2 * Math.PI) / ROTATION_PERIOD_SECONDS;
+    let lastTime = performance.now();
+
+    function tick(now) {
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+      molecule.rotation.y += ANGULAR_VELOCITY * dt;
+      renderer.render(scene, camera);
+    }
+    renderer.setAnimationLoop(tick);
+  </script>
+</body>
+</html>
