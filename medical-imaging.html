@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sysqo · Medical Imaging &amp; Perception</title>
 <meta name="description" content="Vision systems that help clinicians interpret medical scans. The clinician makes every diagnosis.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -20,11 +22,35 @@
       </a>
       <div class="nav-cta">
         <a class="nav-explore" href="about.html">About</a>
+        <a class="nav-explore" href="founder.html">Founder</a>
         <a class="nav-explore" href="index.html#what-we-do">Explore our work</a>
-        <button class="nav-burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <button class="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       </div>
     </div>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-menu-close" aria-label="Close menu" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <nav class="mobile-menu-links" aria-label="Mobile menu">
+      <a href="about.html">About</a>
+      <a href="founder.html">Founder</a>
+      <div class="menu-label">Practices</div>
+      <a href="generative-media.html">Generative Media</a>
+      <a href="lifespan.html">Extending Lifespan</a>
+      <a href="decision-systems.html">Decision Systems</a>
+      <a href="agents.html">Autonomous Agents</a>
+      <a href="medical-imaging.html">Medical Imaging</a>
+      <a href="local-llms.html">Local LLMs</a>
+    </nav>
+    <div class="mobile-menu-contact">
+      <div class="label">Contact</div>
+      <a href="mailto:info@sysqo.com">info@sysqo.com</a>
+    </div>
+  </div>
+  <script src="assets/mobile-menu.js"></script>
 
   <!-- HERO -->
   <header class="ahero">
@@ -102,13 +128,13 @@
           <p>Applied artificial intelligence, practised at the frontier. A private research practice working on a few hard problems at a time.</p>
         </div>
         <div class="foot-col">
-          <h4>Practice</h4>
           <p>18 Old Field Road<br>Pencoed, Bridgend<br>Wales</p>
+          <p style="margin-top:22px"><a href="mailto:info@sysqo.com">info@sysqo.com</a></p>
         </div>
       </div>
       <div class="foot-bottom">
         <p>© <span id="yr">2026</span> Sysqo Limited · Est. 2022. All rights reserved.</p>
-        <div class="legal"><a href="privacy.html">Privacy</a></div>
+        <div class="legal"><a href="founder.html">Founder</a><a href="privacy.html">Privacy</a></div>
       </div>
     </div>
   </footer>

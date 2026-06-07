@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SYSQO — decision-systems hero</title>
+<style>
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  body.preview-light { background: #ffffff; }
+  body.preview-dark  { background: #0a0a0b; }
+  #scene { display: block; width: 100vw; height: 100vh; }
+  .ui {
+    position: fixed; top: 12px; left: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(120,120,120,0.6); user-select: none;
+  }
+  .ui button {
+    background: rgba(0,0,0,0.15); color: inherit; border: 1px solid rgba(120,120,120,0.3);
+    padding: 4px 10px; font: inherit; cursor: pointer; margin-right: 4px;
+  }
+  .ui button:hover { background: rgba(0,0,0,0.25); }
+</style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <div class="ui" id="ui">
+    bg:
+    <button onclick="document.body.className=''">transparent</button>
+    <button onclick="document.body.className='preview-light'">light</button>
+    <button onclick="document.body.className='preview-dark'">dark</button>
+  </div>
+
+  <script>
+  /*
+    SYSQO — decision systems hero
+    -----------------------------
+    Fixed diagonal "projection" line (straight, anchored to the canvas).
+    Animated "prediction" curve that ripples around the projection as it
+    advances — multiple sine harmonics summed for organic fluctuation,
+    drawn as stacked strokes at decreasing alpha for a soft halo glow.
+    Background grid scrolls left to imply continuous time. Endless loop.
+
+    URL flags:
+      ?clean=1  — hide the preview UI
+      ?bg=light|dark — preview against a coloured page bg
+  */
+
+  (function(){
+    const params = new URLSearchParams(location.search);
+    if (params.get('clean') === '1') {
+      document.getElementById('ui').style.display = 'none';
+    }
+    const bg = params.get('bg');
+    if (bg) document.body.className = 'preview-' + bg;
+
+    const canvas = document.getElementById('scene');
+    const ctx = canvas.getContext('2d');
+    let W = 0, H = 0, DPR = 1;
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize(){
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      W = r.width;
+      H = r.height;
+      canvas.width  = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // colours tuned for white page bg
+    const GRID_COLOUR   = 'rgba(140,150,165,0.10)';   // very faint
+    const PROJ_COLOUR   = 'rgba(15,23,42,0.62)';      // dark slate
+    const CURVE_INK     = '46,80,98';                  // muted teal-grey
+    const CURVE_HALO    = '70,110,135';                // softer halo blue
+
+    // halo layers: width and alpha decreasing toward the centre line
+    const HALOS = [
+      { w: 38, a: 0.04, c: CURVE_HALO },
+      { w: 24, a: 0.06, c: CURVE_HALO },
+      { w: 14, a: 0.10, c: CURVE_HALO },
+      { w: 7,  a: 0.22, c: CURVE_HALO },
+      { w: 2,  a: 1.00, c: CURVE_INK  }
+    ];
+
+    let t0 = performance.now();
+    let raf = 0;
+
+    function drawGrid(t){
+      const gridSize = 110;                  // px between grid lines
+      const scroll   = (t * 12) % gridSize;  // horizontal drift speed
+      ctx.strokeStyle = GRID_COLOUR;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let x = -scroll; x < W + gridSize; x += gridSize){
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, H);
+      }
+      for (let y = 0; y < H + gridSize; y += gridSize){
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+      }
+      ctx.stroke();
+    }
+
+    function drawProjection(){
+      // Straight diagonal from lower-left to upper-right, inset slightly
+      const pad = 8;
+      ctx.strokeStyle = PROJ_COLOUR;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(pad, H - pad);
+      ctx.lineTo(W - pad, pad);
+      ctx.stroke();
+    }
+
+    function drawCurve(t){
+      // Sample the curve and stroke it in layers for the halo effect.
+      const step = 4;            // sample spacing
+      const ampScale = Math.min(W, H) * 0.06;
+      for (let i = 0; i < HALOS.length; i++){
+        const h = HALOS[i];
+        ctx.strokeStyle = 'rgba(' + h.c + ',' + h.a + ')';
+        ctx.lineWidth   = h.w;
+        ctx.lineCap     = 'round';
+        ctx.lineJoin    = 'round';
+        ctx.beginPath();
+        for (let x = 0; x <= W; x += step){
+          const u = x / W;
+          // straight-line baseline along the diagonal (top-left to bottom-right inverted)
+          const baseY = H - u * H;
+          // organic fluctuation: three harmonics + slow time drift
+          const phase = t * 0.9;
+          const fluct =
+            Math.sin(u * 6.0 + phase)           * ampScale * 1.0 +
+            Math.sin(u * 11.0 + phase * 1.6)    * ampScale * 0.5 +
+            Math.sin(u * 19.0 + phase * 2.3)    * ampScale * 0.22;
+          // softly damp the fluctuation near the very edges so the
+          // curve meets the projection line tidily at start and finish
+          const envelope = Math.sin(Math.PI * u);
+          const y = baseY + fluct * envelope;
+          if (x === 0) ctx.moveTo(x, y);
+          else         ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    function tick(now){
+      const t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, W, H);
+      drawGrid(t);
+      drawProjection();
+      drawCurve(t);
+      raf = requestAnimationFrame(tick);
+    }
+
+    if (reduce){
+      // single static frame at t=0
+      const t = 0;
+      ctx.clearRect(0, 0, W, H);
+      drawGrid(t);
+      drawProjection();
+      drawCurve(t);
+    } else {
+      raf = requestAnimationFrame(tick);
+    }
+  })();
+  </script>
+</body>
+</html>

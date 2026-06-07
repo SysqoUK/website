@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sysqo · Founder — Daryl Hamilton Wallis</title>
+<meta name="description" content="Daryl Hamilton Wallis, founder of Sysqo, and a selection of his published research.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sysqo-saas.css">
+<style>
+  /* publication list — tuned to the SYSQO theme */
+  .pubs-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:clamp(20px,2.4vw,32px)}
+  .pubs-head .count{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-variant-numeric:tabular-nums}
+  .pub-list{display:grid;gap:14px}
+  .pub-card{
+    background:var(--card);
+    border:1px solid var(--line-soft);
+    border-radius:var(--r-lg);
+    padding:clamp(22px,2.4vw,30px) clamp(22px,2.4vw,30px);
+    box-shadow:var(--shadow-sm);
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s;
+  }
+  .pub-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#dde6f3}
+  .pub-meta{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-bottom:10px}
+  .pub-badge{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;line-height:1}
+  .pub-badge-type{background:var(--bg-soft);color:var(--ink-2);border:1px solid var(--line)}
+  .pub-badge-fulltext{background:rgba(37,99,235,0.08);color:var(--blue);border:1px solid rgba(37,99,235,0.18)}
+  .pub-date{font-size:12.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+  .pub-title{font-size:clamp(16px,1.4vw,18.5px);font-weight:700;line-height:1.35;color:var(--ink);letter-spacing:-0.01em;margin-bottom:8px}
+  .pub-title a{color:inherit;transition:color .2s}
+  .pub-title a:hover{color:var(--blue)}
+  .pub-authors{font-size:13px;color:var(--ink-2);line-height:1.5}
+  .pub-journal{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:6px}
+  .pub-abstract{font-size:14px;color:var(--muted);line-height:1.6;max-width:64ch;margin-top:10px;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .pub-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:600;color:var(--blue);letter-spacing:.01em;transition:gap .2s var(--ease),color .2s}
+  .pub-link:hover{gap:10px;color:var(--blue-deep)}
+  .pub-link svg{width:14px;height:14px}
+  .pub-thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .pub-thumbs a{display:block;width:78px;height:78px;overflow:hidden;border-radius:8px;border:1px solid var(--line-soft);background:var(--bg-soft);transition:transform .2s var(--ease),border-color .2s}
+  .pub-thumbs a:hover{transform:translateY(-2px);border-color:var(--blue)}
+  .pub-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+</style>
+</head>
+<body data-page="founder">
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-in">
+      <a class="brand" href="index.html" aria-label="Sysqo">
+        <img src="assets/sysqo-wordmark.png" alt="Sysqo">
+      </a>
+      <div class="nav-cta">
+        <a class="nav-explore" href="about.html">About</a>
+        <a class="nav-explore" href="founder.html">Founder</a>
+        <a class="nav-explore" href="index.html#what-we-do">Explore our work</a>
+        <button class="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-menu-close" aria-label="Close menu" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <nav class="mobile-menu-links" aria-label="Mobile menu">
+      <a href="about.html">About</a>
+      <a href="founder.html">Founder</a>
+      <div class="menu-label">Practices</div>
+      <a href="generative-media.html">Generative Media</a>
+      <a href="lifespan.html">Extending Lifespan</a>
+      <a href="decision-systems.html">Decision Systems</a>
+      <a href="agents.html">Autonomous Agents</a>
+      <a href="medical-imaging.html">Medical Imaging</a>
+      <a href="local-llms.html">Local LLMs</a>
+    </nav>
+    <div class="mobile-menu-contact">
+      <div class="label">Contact</div>
+      <a href="mailto:info@sysqo.com">info@sysqo.com</a>
+    </div>
+  </div>
+  <script src="assets/mobile-menu.js"></script>
+
+  <!-- HERO -->
+  <header class="ahero">
+    <div class="wrap">
+      <div class="inner rv">
+        <h1 class="display" style="max-width:16ch">Daryl Hamilton <span class="grad-text">Wallis</span>.</h1>
+        <p class="lead">Founder of Sysqo. An entrepreneur whose work spans applied artificial intelligence and a long-standing collaboration on questions of cosmic biology and the origins of life.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- BIO / FRAME -->
+  <section class="section soft">
+    <div class="wrap">
+      <div class="split">
+        <h2 class="h-md rv">A practitioner's record.</h2>
+        <div class="rv d1">
+          <p class="body lg">Daryl has co-authored an extensive body of peer-reviewed research in astrobiology and cosmic biology, with collaborators including <strong>Sir Chandra Wickramasinghe</strong>, <strong>Edward J. Steele</strong>, and <strong>Richard B. Hoover</strong>. The work appears in journals such as <em>Progress in Biophysics and Molecular Biology</em>, <em>Current Research in Virology</em>, and the <em>Proceedings of SPIE</em>, alongside conference contributions and rapid responses in the <em>BMJ</em>.</p>
+          <p class="body lg" style="margin-top:18px">Below: a selection of his published work, in reverse chronological order. Each entry links to the full record on ResearchGate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head rv">
+        <h2 class="h-md">Published work.</h2>
+      </div>
+      <div class="pubs-head rv">
+        <span class="count">Selected publications</span>
+      </div>
+
+      <div class="pub-list">
+
+        <article class="pub-card rv">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Jan 2023</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/366955039_ENAA_and_SEM_investigations_of_Carbonaceous_Meteorites" target="_blank" rel="noopener">ENAA and SEM investigations of Carbonaceous Meteorites</a></h3>
+          <p class="pub-authors">Richard Brice Hoover · Chandra Wickramasinghe · Daryl H. Wallis</p>
+          <p class="pub-abstract">Epithermal Neutron Activation Analysis (ENAA) has provided data on the concentration of Rare Earth Elements (REE) and heat-producing elements (HPEs: K, Th, U) in a variety of carbonaceous meteorites. Space missions and laboratory investigations have provided evidence for liquid water and a vast array of indigenous extraterrestrial organics and biomolecules…</p>
+          <div class="pub-thumbs">
+            <a href="https://www.researchgate.net/publication/366955039" target="_blank" rel="noopener"><img src="assets/founder/366955039-fig1.jpg" alt="Figure 1" loading="lazy"></a>
+          </div>
+          <a class="pub-link" href="https://www.researchgate.net/publication/366955039_ENAA_and_SEM_investigations_of_Carbonaceous_Meteorites" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d1">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">May 2021</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/351691028_Infectious_Diseases_and_Therapeutics_Cometary_Origin_of_COVID-19" target="_blank" rel="noopener">Infectious Diseases and Therapeutics: Cometary Origin of COVID-19</a></h3>
+          <p class="pub-authors">Edward J. Steele · Reginald Gorczynski · Robyn A. Lindley · … · Connor Erade</p>
+          <p class="pub-abstract">The evidence for the cometary origin then rapid global spread of COVID-19 through 2020 is critically reviewed. We outline why it is an alternative plausible scientific explanation to the current bat/pangolin animal-jump theories. In our view this explanation is consistent with all the available temporal unfolding scientific data (genomic, immunological…)</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/351691028_Infectious_Diseases_and_Therapeutics_Cometary_Origin_of_COVID-19" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d2">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Nov 2020</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/346266584_Folowing_the_Science_for_COVID-19_Societal_Constraints_and_Limitations" target="_blank" rel="noopener">Following the Science for COVID-19: Societal Constraints and Limitations</a></h3>
+          <p class="pub-authors">Robert Temple · Reginald Gorczynski · Predrag Slijepcevic · … · Patrick Carnegie</p>
+          <p class="pub-journal">The BMJ</p>
+          <p class="pub-abstract">Rapid Response to BMJ Editorial, supporting the BMJ's position re. COVID-19, concerning the selective suppression of science.</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/346266584_Folowing_the_Science_for_COVID-19_Societal_Constraints_and_Limitations" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Oct 2020</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/344561527_Predicting_the_Future_Trajectory_of_COVID-19" target="_blank" rel="noopener">Predicting the Future Trajectory of COVID-19</a></h3>
+          <p class="pub-authors">N. Chandra Wickramasinghe · Edward J. Steele · Reginald Gorczynski · … · D. T. Wickramasinghe</p>
+          <p class="pub-journal">Current Research in Virology</p>
+          <p class="pub-abstract">We argue that the new coronavirus COVID-19 was probably linked to the arrival of a pure culture of the virus in cometary debris that was deposited in the stratosphere, and first came down in the Hubei province of China. The subsequent worldwide spread of the virus has taken place by a combination of two effects: the deposition of further large quantities…</p>
+          <div class="pub-thumbs">
+            <a href="https://www.researchgate.net/publication/344561527" target="_blank" rel="noopener"><img src="assets/founder/344561527-fig1.jpg" alt="Figure 1" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/344561527" target="_blank" rel="noopener"><img src="assets/founder/344561527-fig2.jpg" alt="Figure 2" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/344561527" target="_blank" rel="noopener"><img src="assets/founder/344561527-fig3.jpg" alt="Figure 3" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/344561527" target="_blank" rel="noopener"><img src="assets/founder/344561527-fig4.jpg" alt="Figure 4" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/344561527" target="_blank" rel="noopener"><img src="assets/founder/344561527-fig5.jpg" alt="Figure 5" loading="lazy"></a>
+          </div>
+          <a class="pub-link" href="https://www.researchgate.net/publication/344561527_Predicting_the_Future_Trajectory_of_COVID-19" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d1">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">May 2020</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/341236861_The_Search_for_Bacteria_and_Viruses_in_the_Stratosphere" target="_blank" rel="noopener">The Search for Bacteria and Viruses in the Stratosphere</a></h3>
+          <p class="pub-authors">N. Chandra Wickramasinghe · Dhammika Maganarachchi · Robert Temple · … · Predrag Slijepcevic</p>
+          <div class="pub-thumbs">
+            <a href="https://www.researchgate.net/publication/341236861" target="_blank" rel="noopener"><img src="assets/founder/341236861-tbl1.jpg" alt="Table 1" loading="lazy"></a>
+          </div>
+          <a class="pub-link" href="https://www.researchgate.net/publication/341236861_The_Search_for_Bacteria_and_Viruses_in_the_Stratosphere" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d2">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Nov 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/328668061_Confirmation_of_Microbial_Ingress_from_Space" target="_blank" rel="noopener">Confirmation of Microbial Ingress from Space</a></h3>
+          <p class="pub-authors">Nalin Chandra Wickramasinghe · M. J. Rycroft · D. T. Wickramasinghe · … · O. S. Tsygankov</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/328668061_Confirmation_of_Microbial_Ingress_from_Space" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Nov 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/328845304_Reply_to_Correspondence_by_R_Duggleby_Numerical_analysis_of_on_Steele_Al-Mufti_Augustyn_Chandrajith_Coghlan_Coulson_et_al_2018_Cause_of_Cambrian_explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">Reply to correspondence by R. Duggleby on "Cause of Cambrian explosion — Terrestrial or Cosmic?"</a></h3>
+          <p class="pub-authors">Edward J. Steele · Shirwan Al-Mufti · Kenneth Augustyn · … · Yongsheng Liu</p>
+          <p class="pub-journal">Progress in Biophysics and Molecular Biology</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/328845304_Reply_to_Correspondence_by_R_Duggleby_Numerical_analysis_of_on_Steele_Al-Mufti_Augustyn_Chandrajith_Coghlan_Coulson_et_al_2018_Cause_of_Cambrian_explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d1">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-date">May 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/325021507_Size_and_Albedo_of_the_Object_of_Interstellar_Origin_A2017U1" target="_blank" rel="noopener">Size and Albedo of the Object of Interstellar Origin A/2017U1</a></h3>
+          <p class="pub-authors">Nalin Chandra Wickramasinghe · Janaki T. Wickramasinghe · Daryl H. Wallis</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/325021507_Size_and_Albedo_of_the_Object_of_Interstellar_Origin_A2017U1" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d2">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-date">Mar 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/325733341_Cause_of_Cambrian_Explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">Cause of Cambrian Explosion — Terrestrial or Cosmic?</a></h3>
+          <p class="pub-authors">Edward J. Steele · Shirwan Al-Mufti · Kenneth Augustyn · … · Yongsheng Liu</p>
+          <p class="pub-abstract">We review the salient evidence consistent with or predicted by the Hoyle-Wickramasinghe (H-W) thesis of Cometary (Cosmic) Biology. Much of this physical and biological evidence is multifactorial. One particular focus are the recent studies which date the emergence of the complex retroviruses of vertebrate lines at or just before the Cambrian Explosion…</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/325733341_Cause_of_Cambrian_Explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Mar 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/323830913_Cause_of_Cambrian_Explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">Cause of Cambrian Explosion — Terrestrial or Cosmic?</a></h3>
+          <p class="pub-authors">Edward J. Steele · Shirwan Al-Mufti · Kenneth Augustyn · … · Yongsheng Liu</p>
+          <p class="pub-journal">Progress in Biophysics and Molecular Biology</p>
+          <p class="pub-abstract">We review the salient evidence consistent with or predicted by the Hoyle-Wickramasinghe (H-W) thesis of Cometary (Cosmic) Biology. Much of this physical and biological evidence is multifactorial. One particular focus are the recent studies which date the emergence of the complex retroviruses of vertebrate lines at or just before the Cambrian Explosion…</p>
+          <div class="pub-thumbs">
+            <a href="https://www.researchgate.net/publication/323830913" target="_blank" rel="noopener"><img src="assets/founder/323830913-fig1.jpg" alt="Figure 1" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/323830913" target="_blank" rel="noopener"><img src="assets/founder/323830913-fig2.jpg" alt="Figure 2" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/323830913" target="_blank" rel="noopener"><img src="assets/founder/323830913-fig3.jpg" alt="Figure 3" loading="lazy"></a>
+          </div>
+          <a class="pub-link" href="https://www.researchgate.net/publication/323830913_Cause_of_Cambrian_Explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d1">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-date">Mar 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/323844907_Reply_to_editorial_and_commentaries_on_Steele_Al-Mufti_Augustyn_Chandrajith_Coghlan_Coulson_et_al_2018_Cause_of_Cambrian_explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">Reply to editorial and commentaries on "Cause of Cambrian explosion — Terrestrial or Cosmic?"</a></h3>
+          <p class="pub-authors">Edward J. Steele · Shirwan Al-Mufti · Kenneth Augustyn · … · Yongsheng Liu</p>
+          <p class="pub-journal">Progress in Biophysics and Molecular Biology</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/323844907_Reply_to_editorial_and_commentaries_on_Steele_Al-Mufti_Augustyn_Chandrajith_Coghlan_Coulson_et_al_2018_Cause_of_Cambrian_explosion_-_Terrestrial_or_Cosmic" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d2">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Article</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Feb 2018</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/322865631_Oumuamua_A2017U1_-_A_Confirmation_of_Links_between_Galactic_Planetary_Systems" target="_blank" rel="noopener">Oumuamua (A/2017U1) — A Confirmation of Links between Galactic Planetary Systems</a></h3>
+          <p class="pub-authors">Nalin Chandra Wickramasinghe · Edward J. Steele · Daryl H. Wallis · … · Janaki T. Wickramasinghe</p>
+          <div class="pub-thumbs">
+            <a href="https://www.researchgate.net/publication/322865631" target="_blank" rel="noopener"><img src="assets/founder/322865631-fig1.jpg" alt="Figure 1" loading="lazy"></a>
+          </div>
+          <a class="pub-link" href="https://www.researchgate.net/publication/322865631_Oumuamua_A2017U1_-_A_Confirmation_of_Links_between_Galactic_Planetary_Systems" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Conference Paper</span>
+            <span class="pub-badge pub-badge-fulltext">Full-text available</span>
+            <span class="pub-date">Sep 2015</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/300347232_Evidence_of_ancient_microbial_activity_on_Mars" target="_blank" rel="noopener">Evidence of ancient microbial activity on Mars</a></h3>
+          <p class="pub-authors">Jamie Wallis · Nalin Chandra Wickramasinghe · Daryl H. Wallis · … · Richard Brice Hoover</p>
+          <p class="pub-journal">Proceedings of SPIE — The International Society for Optical Engineering</p>
+          <p class="pub-abstract">We report for the first time in situ observations of a relatively rare secondary iron arsenate-sulphate mineral named bukovskýite — Fe³⁺₂(As⁵⁺O₄)(S⁶⁺O₄)(OH)·7(H₂O) — found in a shock melt vein of the Tissint Martian meteorite. It is hypothesised that the mineral formed when high concentrations of aqueous H⁺, Fe(III), SO₄ and AsO₄ were maintained…</p>
+          <div class="pub-thumbs">
+            <a href="https://www.researchgate.net/publication/300347232" target="_blank" rel="noopener"><img src="assets/founder/300347232-fig1.jpg" alt="Figure 1" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/300347232" target="_blank" rel="noopener"><img src="assets/founder/300347232-fig2.jpg" alt="Figure 2" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/300347232" target="_blank" rel="noopener"><img src="assets/founder/300347232-fig3.jpg" alt="Figure 3" loading="lazy"></a>
+            <a href="https://www.researchgate.net/publication/300347232" target="_blank" rel="noopener"><img src="assets/founder/300347232-fig4.jpg" alt="Figure 4" loading="lazy"></a>
+          </div>
+          <a class="pub-link" href="https://www.researchgate.net/publication/300347232_Evidence_of_ancient_microbial_activity_on_Mars" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d1">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Conference Paper</span>
+            <span class="pub-date">Sep 2015</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/300346157_Carbonaceous_structures_in_the_Tissint_Martian_Meteorite_evidence_of_a_biogenetic_origin" target="_blank" rel="noopener">Carbonaceous structures in the Tissint Martian Meteorite: evidence of a biogenetic origin</a></h3>
+          <p class="pub-authors">Jamie Wallis · Nalin Chandra Wickramasinghe · Daryl H. Wallis · … · Richard Brice Hoover</p>
+          <p class="pub-journal">Proceedings of SPIE — The International Society for Optical Engineering</p>
+          <p class="pub-abstract">We report for the first time in situ observations of 5–50 μm spherical carbonaceous structures in the Tissint Martian meteorite comprising of pyrite (FeS₂) cores and carbonaceous outer coatings. The structures are characterized as smooth immiscible spheres with curved boundaries occasionally following the contours of the pyrite inclusion…</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/300346157_Carbonaceous_structures_in_the_Tissint_Martian_Meteorite_evidence_of_a_biogenetic_origin" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+        <article class="pub-card rv d2">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-type">Conference Paper</span>
+            <span class="pub-date">Sep 2015</span>
+          </div>
+          <h3 class="pub-title"><a href="https://www.researchgate.net/publication/300346158_Chemical_and_structural_composition_of_organic_carbonaceous_structures_in_Tissint_evidence_for_a_biogenetic_origin" target="_blank" rel="noopener">Chemical and structural composition of organic carbonaceous structures in Tissint: evidence for a biogenetic origin</a></h3>
+          <p class="pub-authors">Jamie Wallis · Nalin Chandra Wickramasinghe · Daryl H. Wallis · … · Richard Brice Hoover</p>
+          <a class="pub-link" href="https://www.researchgate.net/publication/300346158_Chemical_and_structural_composition_of_organic_carbonaceous_structures_in_Tissint_evidence_for_a_biogenetic_origin" target="_blank" rel="noopener">View on ResearchGate<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="index.html" aria-label="Sysqo">
+            <img src="assets/sysqo-wordmark.png" alt="Sysqo">
+          </a>
+        </div>
+        <div class="foot-tagline">
+          <p>Applied artificial intelligence, practised at the frontier. A private research practice working on a few hard problems at a time.</p>
+        </div>
+        <div class="foot-col">
+          <p>18 Old Field Road<br>Pencoed, Bridgend<br>Wales</p>
+          <p style="margin-top:22px"><a href="mailto:info@sysqo.com">info@sysqo.com</a></p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p>© <span id="yr">2026</span> Sysqo Limited · Est. 2022. All rights reserved.</p>
+        <div class="legal"><a href="founder.html">Founder</a><a href="privacy.html">Privacy</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/sysqo-saas.js"></script>
+</body>
+</html>

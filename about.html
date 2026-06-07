@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sysqo · About</title>
 <meta name="description" content="Sysqo is a highly selective private research practice working at the frontier of applied artificial intelligence.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -49,11 +51,33 @@ img{display:block;max-width:100%}
 .nav-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:140px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:11px}
 .brand img{height:30px;width:auto;display:block}
-.nav .brand img{height:120px}
+.nav .brand img{height:102px}
+@media(max-width:860px){
+  .nav-in{height:70px}
+  .nav .brand img{height:60px}
+  .nav .nav-burger{display:inline-flex !important;align-items:center;justify-content:center}
+  .nav-cta{gap:18px}
+}
+/* ---------- mobile menu overlay ---------- */
+.mobile-menu{position:fixed;inset:0;z-index:100;background:#fff;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:80px 28px 40px;opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s var(--ease)}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-menu-close{position:absolute;top:18px;right:18px;background:none;border:0;width:44px;height:44px;cursor:pointer;color:var(--ink-2);display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .2s,color .2s}
+.mobile-menu-close:hover{background:var(--bg-soft);color:var(--blue)}
+.mobile-menu-close svg{width:24px;height:24px;stroke-width:1.5}
+.mobile-menu-links{display:flex;flex-direction:column;gap:12px;width:100%;max-width:420px;text-align:left}
+.mobile-menu-links a{display:block;font-size:clamp(18px,4.5vw,22px);font-weight:600;color:var(--ink);padding:6px 0;letter-spacing:-0.01em;line-height:1.3;transition:color .2s}
+.mobile-menu-links a:hover{color:var(--blue)}
+.mobile-menu-links .menu-label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:28px;margin-bottom:6px}
+.mobile-menu-contact{width:100%;max-width:420px;padding-top:28px;border-top:1px solid var(--line-soft)}
+.mobile-menu-contact .label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.mobile-menu-contact a{display:block;font-size:18px;font-weight:600;color:var(--ink);transition:color .2s}
+.mobile-menu-contact a:hover{color:var(--blue)}
+.nav-burger svg{stroke-width:1.5;stroke-linecap:round}
+.nav-burger:hover{color:var(--blue)}
 .nav-cta{display:flex;align-items:center;gap:40px}
 .nav-explore{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--blue);transition:gap .25s var(--ease),color .2s;font-size:19px}
 .nav-explore:hover{gap:13px;color:var(--blue-deep)}
-.nav-burger{display:none;background:none;border:0;cursor:pointer;width:26px;height:26px;color:var(--ink)}
+.nav-burger{display:none;background:none;border:0;cursor:pointer;width:26px;height:26px;color:var(--ink-2);transition:color .2s}
 @media(max-width:860px){.nav-explore{display:none}}
 
 /* ---------- about hero ---------- */
@@ -154,11 +178,35 @@ h1.ahero-title{font-size:clamp(38px,5.4vw,64px);font-weight:800;line-height:1.03
       </a>
       <div class="nav-cta">
         <a class="nav-explore" href="#" aria-current="page">About</a>
+        <a class="nav-explore" href="founder.html">Founder</a>
         <a class="nav-explore" href="index.html#what-we-do">Explore our work</a>
-        <button class="nav-burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <button class="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       </div>
     </div>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-menu-close" aria-label="Close menu" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <nav class="mobile-menu-links" aria-label="Mobile menu">
+      <a href="about.html">About</a>
+      <a href="founder.html">Founder</a>
+      <div class="menu-label">Practices</div>
+      <a href="generative-media.html">Generative Media</a>
+      <a href="lifespan.html">Extending Lifespan</a>
+      <a href="decision-systems.html">Decision Systems</a>
+      <a href="agents.html">Autonomous Agents</a>
+      <a href="medical-imaging.html">Medical Imaging</a>
+      <a href="local-llms.html">Local LLMs</a>
+    </nav>
+    <div class="mobile-menu-contact">
+      <div class="label">Contact</div>
+      <a href="mailto:info@sysqo.com">info@sysqo.com</a>
+    </div>
+  </div>
+  <script src="assets/mobile-menu.js"></script>
 
   <!-- HERO -->
   <header class="ahero">
@@ -257,13 +305,13 @@ h1.ahero-title{font-size:clamp(38px,5.4vw,64px);font-weight:800;line-height:1.03
           <p>Applied artificial intelligence, practised at the frontier. A private research practice working on a few hard problems at a time.</p>
         </div>
         <div class="foot-col">
-          <h4>Practice</h4>
           <p>18 Old Field Road<br>Pencoed, Bridgend<br>Wales</p>
+          <p style="margin-top:22px"><a href="mailto:info@sysqo.com">info@sysqo.com</a></p>
         </div>
       </div>
       <div class="foot-bottom">
         <p>© <span id="yr">2026</span> Sysqo Limited · Est. 2022. All rights reserved.</p>
-        <div class="legal"><a href="privacy.html">Privacy</a></div>
+        <div class="legal"><a href="founder.html">Founder</a><a href="privacy.html">Privacy</a></div>
       </div>
     </div>
   </footer>
